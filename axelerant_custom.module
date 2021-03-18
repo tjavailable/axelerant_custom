@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Thomas John
+ * Date: 18/03/2021
+ * Time: 20:00
+ */
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter
+ * @param $form
+ * @param FormStateInterface $form_state
+ * @param $form_id
+ */
+function axelerant_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//
+  switch ($form_id) {
+    case 'system_site_information_settings':
+      {
+        $site_api_key = \Drupal::state()->get('siteapikey');
+        // Add a text field to save Site API Key.
+        $form['site_api_key'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Site API Key'),
+          '#size' => 60,
+          '#maxlength' => 20,
+          '#placeholder' => 'No API Key Yet',
+          '#default_value' => !empty($site_api_key) ? $site_api_key : '',
+        );
+        // Alter the Submit Button Text.
+        $form['actions']['submit']['#value'] = t('Update Configuration');
+        // Add a custom submit handler.
+        $form['actions']['submit']['#submit'][] = 'custom_update_site_api_key';
+        break;
+      }
+    default:
+  }
+}
+
+/**
+ * Implements custom submit action for Site APi Key Save.
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ */
+function custom_update_site_api_key(&$form, FormStateInterface $form_state) {
+  $site_api_key = $form_state->getValue('site_api_key');
+  if (!(empty($site_api_key))) {
+    \Drupal::state()->set('siteapikey', $site_api_key);
+  }
+  else {
+    \Drupal::state()->set('siteapikey', '');
+  }
+}

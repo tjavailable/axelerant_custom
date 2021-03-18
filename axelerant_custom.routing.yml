@@ -1,0 +1,9 @@
+axelerant_custom.custom_page:
+  path: '/custom_page_json/{api_key}/{nid}'
+  defaults:
+    _controller: '\Drupal\axelerant_custom\Controller\AxelerantCustomActionController::customJsonPage'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:

@@ -1,0 +1,5 @@
+name: Axelerant Custom
+description: Custom Module for Axelerant.
+type: module
+core: 8.x
+package: Axelerant
