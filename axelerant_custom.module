@@ -51,6 +51,9 @@ function custom_update_site_api_key(&$form, FormStateInterface $form_state) {
   $site_api_key = $form_state->getValue('site_api_key');
   if (!(empty($site_api_key))) {
     \Drupal::state()->set('siteapikey', $site_api_key);
+    drupal_set_message(t('Site API Key %siteApiKey has been saved with that value.', [
+      '%siteApiKey' => $site_api_key,
+    ]));
   }
   else {
     \Drupal::state()->set('siteapikey', '');
